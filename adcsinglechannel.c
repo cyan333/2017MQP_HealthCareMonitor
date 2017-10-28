@@ -1,0 +1,172 @@
+#include "Board.h"
+#include <ti/sysbios/knl/Semaphore.h>
+#include <ti/sysbios/knl/Task.h>
+#include <ti/sysbios/knl/Clock.h>
+#include <ti/sysbios/family/arm/m3/Hwi.h>
+#include <ti/drivers/Power.h>
+#include <ti/drivers/power/PowerCC26XX.h>
+#include <ti/sysbios/BIOS.h>
+#include <xdc/runtime/System.h>
+#include <xdc/std.h>
+
+#include <ti/drivers/PIN/PINCC26XX.h>
+#include <ti/drivers/UART.h>
+
+#include <ti/sysbios/family/arm/m3/TimestampProvider.h>
+#include <xdc/runtime/Timestamp.h>
+
+#include <driverlib/aux_adc.h>
+#include <driverlib/aux_wuc.h>
+#include <inc/hw_aux_evctl.h>
+
+#define TASK_STACK_SIZE 512
+#define TASK_PRI        1
+
+
+char taskStack[TASK_STACK_SIZE];
+Task_Struct taskStruct;
+
+Semaphore_Struct sem;
+Semaphore_Handle hSem;
+
+Hwi_Struct hwi;
+
+#define SAMPLECOUNT 260
+#define SAMPLETYPE uint16_t
+#define SAMPLESIZE sizeof(SAMPLETYPE)
+
+#define ALS_POWER   IOID_26
+#define ALS_OUTPUT  IOID_23
+
+SAMPLETYPE adcSamples[SAMPLECOUNT];
+uint32_t timeSamples[SAMPLECOUNT];
+SAMPLETYPE singleSample;
+
+// Analog light sensor pins
+const PIN_Config alsPins[] = {
+  ALS_POWER       | PIN_GPIO_OUTPUT_EN | PIN_GPIO_HIGH   | PIN_PUSHPULL | PIN_DRVSTR_MAX,
+  ALS_OUTPUT      | PIN_INPUT_DIS | PIN_GPIO_OUTPUT_DIS ,
+  PIN_TERMINATE
+};
+
+PIN_Handle pinHandle;
+PIN_State  pinState;
+
+UART_Handle uHandle;
+
+void taskFxn(UArg a0, UArg a1);
+void adcIsr(UArg a0);
+
+int main(void) {
+
+  //Initialize pins, turn on GPIO module
+  PIN_init(BoardGpioInitTable);
+
+  //Initialize task
+  Task_Params params;
+  Task_Params_init(&params);
+  params.priority = TASK_PRI;
+  params.stackSize = TASK_STACK_SIZE;
+  params.stack = taskStack;
+
+  Task_construct(&taskStruct, taskFxn, &params, NULL);
+
+  // Construct semaphore used for pending in task
+  Semaphore_Params sParams;
+  Semaphore_Params_init(&sParams);
+  sParams.mode = Semaphore_Mode_BINARY;
+
+  Semaphore_construct(&sem, 0, &sParams);
+  hSem = Semaphore_handle(&sem);
+
+  BIOS_start();
+}
+
+
+void taskFxn(UArg a0, UArg a1) {
+
+  Hwi_Params hwiParams;
+  Hwi_Params_init(&hwiParams);
+  hwiParams.enableInt = true;
+
+  Hwi_construct(&hwi, INT_AUX_ADC_IRQ, adcIsr, &hwiParams, NULL);
+
+  UART_Params uParams;
+  // Initialize default values
+  UART_Params_init(&uParams);
+  // Configure custom data, don't care about read params as not used
+  // 115.2kBaud, Text, blocking mode
+  uHandle = UART_open(Board_UART,&uParams);
+
+  // Set up pins
+  pinHandle = PIN_open(&pinState, alsPins);
+
+  // Enable clock for ADC digital and analog interface (not currently enabled in driver)
+  AUXWUCClockEnable(AUX_WUC_MODCLKEN0_ANAIF_M|AUX_WUC_MODCLKEN0_AUX_ADI4_M);
+  // Connect AUX IO7 (DIO23) as analog input. Light sensor on SmartRF06EB
+  AUXADCSelectInput(ADC_COMPB_IN_AUXIO7);
+
+
+  // Set up ADC
+  AUXADCEnableSync(AUXADC_REF_FIXED, AUXADC_SAMPLE_TIME_2P7_US, AUXADC_TRIGGER_MANUAL);
+
+  // Disallow STANDBY mode while using the ADC.
+  Power_setConstraint(PowerCC26XX_SB_DISALLOW);
+
+  uint8_t currentSample = 0;
+
+  while(currentSample < SAMPLECOUNT) {
+
+    //Sleep 100ms in IDLE mode
+//    Task_sleep(50 * 1000 / Clock_tickPeriod);
+
+    // Trigger ADC sampling
+    AUXADCGenManualTrigger();
+    // Wait in IDLE until done
+    Semaphore_pend(hSem, BIOS_WAIT_FOREVER );
+
+    timeSamples[currentSample] = TimestampProvider_get32();
+    adcSamples[currentSample++] = singleSample;
+
+  }
+
+  // Disable ADC
+  AUXADCDisable();
+  // Allow STANDBY mode again
+  Power_releaseConstraint(PowerCC26XX_SB_DISALLOW);
+
+  // Restore pins to values in BoardGpioTable
+  PIN_close(pinHandle);
+
+  // Log data through UART
+  int i = 0;
+  for(i = 0; i<SAMPLECOUNT; i++ ) {
+      System_printf("%x\n",adcSamples[i]);
+         System_flush();
+
+  }
+
+  int j = 0;
+    for(j = 0; j<SAMPLECOUNT; j++ ) {
+
+           System_printf("%d\n", timeSamples[j]);
+           System_flush();
+    }
+
+  // Goto STANDBY forever
+  Task_sleep(BIOS_WAIT_FOREVER);
+
+}
+
+
+void adcIsr(UArg a0) {
+
+  // Pop sample from FIFO to allow clearing ADC_IRQ event
+  singleSample = AUXADCReadFifo();
+  // Clear ADC_IRQ flag. Note: Missing driver for this.
+  HWREGBITW(AUX_EVCTL_BASE + AUX_EVCTL_O_EVTOMCUFLAGSCLR, AUX_EVCTL_EVTOMCUFLAGSCLR_ADC_IRQ_BITN) = 1;
+
+  // Post semaphore to wakeup task
+  Semaphore_post(hSem);
+
+}
