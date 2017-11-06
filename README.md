@@ -1,68 +1,62 @@
 ## Example Summary
 
-Sample application to read ADC sampling results.
+Example that uses the ADCBuf driver to make a number of samples
+and then echoes them to the console via UART.
 
 ## Peripherals Exercised
 
-* `Board_ADCCHANNEL_A0` - ADC channel A0
-* `Board_ADCCHANNEL_A1` - ADC channel A1
+* `Board_ADCBuf0` - Used to take samples on an analogue input.
+* `Board_UART0` - Used to echo samples to host serial session
 
 ## Resources & Jumper Settings
 
->Please refer to the development board's specific __Settings and Resources__
+> Please refer to the development board's specific __Settings and Resources__
 section in the Getting Started Guide. For convenience, a short summary is also
 shown below.
 
-| Development board | Notes                                                  |
-| ----------------- | ------                                                 |
-| CC3200            |                                                        |
-| MSP-EXP432P401R   |                                                        |
+| Development board | Notes |
+| ----------------- | ------|
+| CC1310DK_7XD      |       |
+| CC2650DK_7ID      |       |
+| MSP-EXP432P401R   |       |
 
 > Fields left blank have no specific settings for this example.
 
 ## Example Usage
 
-* Connect the ADC channel 0 and channel 1 to the sampling sources. For the quick
-testing, the pin of channel 0 is connected to 3V3 and the pin of channel 1 is
-connected to the ground.
+* Run the example.
 
-* The example will sample on the specified ADC channels and print the sampling
-result on the console. There are two tasks sampling the different ADC channel.
-One task does only one sampling and the other task does multiple samplings:
+* When the application is running, open a serial session (e.g. `HyperTerminal`,
+`puTTY`, etc.) to the appropriate COM port.
+> The COM port can be determined via Device Manager in Windows or via `ls /dev/tty*` in Linux.
+
+The connection should have the following settings
 ```
-        ADC channel 0 initialized
-        ADC channel 0 convert result: 0x3FFF
-        ADC channel 1 initialized
-        ADC channel 1 convert result (0): 0x0000
-        ADC channel 1 convert result (1): 0x0000
-        ADC channel 1 convert result (2): 0x0000
+    Baud-rate:     115200
+    Data bits:          8
+    Stop bits:          1
+    Parity:          None
+    Flow Control:    None
 ```
-The actual convert result value may vary depending on the reference voltage
-settings. Please refer to board specific datasheet for more details.
+* The target will send packages of 100 samples and a header to the serial session
+twice per second. The ADCBuf driver supports higher sampling rates. The exact maximum
+rate is device specific. 100 samples sampled at 500 Hz was chosen to make the console output
+easily interpretable.
+The values displayed on the console are in micro-volts.
+
 
 ## Application Design Details
 
-This application uses two tasks:
+* This example shows how to initialize the ADCBuf driver in continuous mode.
 
-`'taskFxn0'` - performs the following actions:
-
-1. Opens and initializes an ADC driver object.
-
-2. Uses the ADC driver object to do the one-shot sampling and prints the sampling
-result.
-
-3. Closes the ADC driver object.
-
-`'taskFxn1'` - performs the following actions:
-
-1. Opens and initializes an ADC driver object.
-
-2. Uses the ADC driver object to do the multiple samplings and prints each sampling
-result.
-
-3. Closes the ADC driver object.
+* A single task, `conversiontStartFxn`, sets up the UART connection to the serial console and starts
+a continuous conversion with the ADCBuf driver. After this is completed, the task sleeps forever.
+This allows the device to enter low power states. The callback function `adcBufCallback` is called
+whenever the driver has finished filling one of the buffers. It transfers the data into an output buffer
+in a human-readable format. It then starts a UART transfer to send the output buffer to the console.
 
 ## References
+
 * For GNU and IAR users, please read the following website for details
   about enabling [semi-hosting](http://processors.wiki.ti.com/index.php/TI-RTOS_Examples_SemiHosting)
   in order to view console output.

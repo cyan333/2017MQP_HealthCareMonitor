@@ -9,8 +9,8 @@ GEN_CMDS__FLAG := -l"configPkg/linker.cmd"
 
 ORDERED_OBJS += \
 "./CC2650_LAUNCHXL.obj" \
-"./adcsinglechannel.obj" \
 "./ccfg.obj" \
+"./ecg_cont_sample.obj" \
 "../CC2650_LAUNCHXL.cmd" \
 $(GEN_CMDS__FLAG) \
 -l"/Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/cc26xxware_2_24_03_17272/driverlib/bin/ccs/driverlib.lib" \
@@ -121,33 +121,33 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-adcsinglechannel_CC2650_LAUNCHXL_TI.out \
+mqp_ecg_adc.out \
 
 EXE_OUTPUTS__QUOTED += \
-"adcsinglechannel_CC2650_LAUNCHXL_TI.out" \
+"mqp_ecg_adc.out" \
 
 BIN_OUTPUTS += \
-adcsinglechannel_CC2650_LAUNCHXL_TI.hex \
+mqp_ecg_adc.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"adcsinglechannel_CC2650_LAUNCHXL_TI.hex" \
+"mqp_ecg_adc.hex" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "adcsinglechannel_CC2650_LAUNCHXL_TI.out"
+	@$(MAKE) --no-print-directory -Onone "mqp_ecg_adc.out"
 
 # Tool invocations
-adcsinglechannel_CC2650_LAUNCHXL_TI.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+mqp_ecg_adc.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=ccs -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on --abi=eabi -z -m"adcsinglechannel_CC2650_LAUNCHXL_TI.map" --heap_size=0 --stack_size=256 -i"/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/lib" -i"/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="adcsinglechannel_CC2650_LAUNCHXL_TI_linkInfo.xml" --rom_model -o "adcsinglechannel_CC2650_LAUNCHXL_TI.out" $(ORDERED_OBJS)
+	"/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=ccs -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on --abi=eabi -z -m"mqp_ecg_adc.map" --heap_size=0 --stack_size=256 -i"/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/lib" -i"/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="mqp_ecg_adc_linkInfo.xml" --rom_model -o "mqp_ecg_adc.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-adcsinglechannel_CC2650_LAUNCHXL_TI.hex: $(EXE_OUTPUTS)
+mqp_ecg_adc.hex: $(EXE_OUTPUTS)
 	@echo 'Invoking: ARM Hex Utility'
-	"/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/bin/armhex" --memwidth=8 --romwidth=8 --intel -o "adcsinglechannel_CC2650_LAUNCHXL_TI.hex" $(EXE_OUTPUTS__QUOTED)
+	"/Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/bin/armhex" --memwidth=8 --romwidth=8 --intel -o "mqp_ecg_adc.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 
@@ -155,8 +155,8 @@ adcsinglechannel_CC2650_LAUNCHXL_TI.hex: $(EXE_OUTPUTS)
 clean:
 	-$(RM) $(GEN_CMDS__QUOTED)$(GEN_MISC_FILES__QUOTED)$(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)$(GEN_OPTS__QUOTED)
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
-	-$(RM) "CC2650_LAUNCHXL.obj" "adcsinglechannel.obj" "ccfg.obj" 
-	-$(RM) "CC2650_LAUNCHXL.d" "adcsinglechannel.d" "ccfg.d" 
+	-$(RM) "CC2650_LAUNCHXL.obj" "ccfg.obj" "ecg_cont_sample.obj" 
+	-$(RM) "CC2650_LAUNCHXL.d" "ccfg.d" "ecg_cont_sample.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

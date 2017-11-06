@@ -187,8 +187,8 @@ CC2650_LAUNCHXL.obj: /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products
 CC2650_LAUNCHXL.obj: /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/bios_6_46_01_37/packages/ti/sysbios/knl/package/Clock_TimerProxy.h
 CC2650_LAUNCHXL.obj: /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/cc26xxware_2_24_03_17272/driverlib/udma.h
 CC2650_LAUNCHXL.obj: /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/cc26xxware_2_24_03_17272/inc/hw_udma.h
-CC2650_LAUNCHXL.obj: /Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/Board.h
-CC2650_LAUNCHXL.obj: /Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/CC2650_LAUNCHXL.h
+CC2650_LAUNCHXL.obj: /Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/Board.h
+CC2650_LAUNCHXL.obj: /Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/CC2650_LAUNCHXL.h
 CC2650_LAUNCHXL.obj: /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/drivers/UART.h
 CC2650_LAUNCHXL.obj: /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/include/stddef.h
 CC2650_LAUNCHXL.obj: /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/drivers/uart/UARTCC26XX.h
@@ -480,8 +480,8 @@ CC2650_LAUNCHXL.obj: /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products
 /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/bios_6_46_01_37/packages/ti/sysbios/knl/package/Clock_TimerProxy.h: 
 /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/cc26xxware_2_24_03_17272/driverlib/udma.h: 
 /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/cc26xxware_2_24_03_17272/inc/hw_udma.h: 
-/Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/Board.h: 
-/Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/CC2650_LAUNCHXL.h: 
+/Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/Board.h: 
+/Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/CC2650_LAUNCHXL.h: 
 /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/drivers/UART.h: 
 /Applications/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.4.LTS/include/stddef.h: 
 /Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/drivers/uart/UARTCC26XX.h: 

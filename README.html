@@ -36,11 +36,11 @@
 </ul>
 </div>
 <h2 id="example-summary">Example Summary</h2>
-<p>Sample application to read ADC sampling results.</p>
+<p>Example that uses the ADCBuf driver to make a number of samples and then echoes them to the console via UART.</p>
 <h2 id="peripherals-exercised">Peripherals Exercised</h2>
 <ul>
-<li><code>Board_ADCCHANNEL_A0</code> - ADC channel A0</li>
-<li><code>Board_ADCCHANNEL_A1</code> - ADC channel A1</li>
+<li><code>Board_ADCBuf0</code> - Used to take samples on an analogue input.</li>
+<li><code>Board_UART0</code> - Used to echo samples to host serial session</li>
 </ul>
 <h2 id="resources-jumper-settings">Resources &amp; Jumper Settings</h2>
 <blockquote>
@@ -55,10 +55,14 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">CC3200</td>
+<td align="left">CC1310DK_7XD</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
+<td align="left">CC2650DK_7ID</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
 <td align="left">MSP-EXP432P401R</td>
 <td align="left"></td>
 </tr>
@@ -69,30 +73,23 @@
 </blockquote>
 <h2 id="example-usage">Example Usage</h2>
 <ul>
-<li><p>Connect the ADC channel 0 and channel 1 to the sampling sources. For the quick testing, the pin of channel 0 is connected to 3V3 and the pin of channel 1 is connected to the ground.</p></li>
-<li><p>The example will sample on the specified ADC channels and print the sampling result on the console. There are two tasks sampling the different ADC channel. One task does only one sampling and the other task does multiple samplings:</p>
-<pre><code>    ADC channel 0 initialized
-    ADC channel 0 convert result: 0x3FFF
-    ADC channel 1 initialized
-    ADC channel 1 convert result (0): 0x0000
-    ADC channel 1 convert result (1): 0x0000
-    ADC channel 1 convert result (2): 0x0000</code></pre>
-<p>The actual convert result value may vary depending on the reference voltage settings. Please refer to board specific datasheet for more details.</p></li>
+<li><p>Run the example.</p></li>
+<li><p>When the application is running, open a serial session (e.g. <code>HyperTerminal</code>, <code>puTTY</code>, etc.) to the appropriate COM port. &gt; The COM port can be determined via Device Manager in Windows or via <code>ls /dev/tty*</code> in Linux.</p></li>
+</ul>
+<p>The connection should have the following settings</p>
+<pre><code>    Baud-rate:     115200
+    Data bits:          8
+    Stop bits:          1
+    Parity:          None
+    Flow Control:    None</code></pre>
+<ul>
+<li>The target will send packages of 100 samples and a header to the serial session twice per second. The ADCBuf driver supports higher sampling rates. The exact maximum rate is device specific. 100 samples sampled at 500 Hz was chosen to make the console output easily interpretable. The values displayed on the console are in micro-volts.</li>
 </ul>
 <h2 id="application-design-details">Application Design Details</h2>
-<p>This application uses two tasks:</p>
-<p><code>'taskFxn0'</code> - performs the following actions:</p>
-<ol style="list-style-type: decimal">
-<li><p>Opens and initializes an ADC driver object.</p></li>
-<li><p>Uses the ADC driver object to do the one-shot sampling and prints the sampling result.</p></li>
-<li><p>Closes the ADC driver object.</p></li>
-</ol>
-<p><code>'taskFxn1'</code> - performs the following actions:</p>
-<ol style="list-style-type: decimal">
-<li><p>Opens and initializes an ADC driver object.</p></li>
-<li><p>Uses the ADC driver object to do the multiple samplings and prints each sampling result.</p></li>
-<li><p>Closes the ADC driver object.</p></li>
-</ol>
+<ul>
+<li><p>This example shows how to initialize the ADCBuf driver in continuous mode.</p></li>
+<li><p>A single task, <code>conversiontStartFxn</code>, sets up the UART connection to the serial console and starts a continuous conversion with the ADCBuf driver. After this is completed, the task sleeps forever. This allows the device to enter low power states. The callback function <code>adcBufCallback</code> is called whenever the driver has finished filling one of the buffers. It transfers the data into an output buffer in a human-readable format. It then starts a UART transfer to send the output buffer to the console.</p></li>
+</ul>
 <h2 id="references">References</h2>
 <ul>
 <li>For GNU and IAR users, please read the following website for details about enabling <a href="http://processors.wiki.ti.com/index.php/TI-RTOS_Examples_SemiHosting">semi-hosting</a> in order to view console output.</li>

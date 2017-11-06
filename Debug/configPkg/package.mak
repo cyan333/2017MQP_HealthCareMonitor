@@ -128,73 +128,73 @@ package/%.xdc.inc package/%_configPkg.c package/%.defs.h: %.xdc $(PKGCFGS)
 	@$(MSG) generating interfaces for package configPkg" (because $@ is older than $(firstword $?))" ...
 	$(XSRUN) -f xdc/services/intern/cmd/build.xs $(MK_IDLOPTS) -m package/package.xdc.dep -i package/package.xdc.inc package.xdc
 
-.dlls,em3 .dlls: adcsinglechannel.pem3
+.dlls,em3 .dlls: adc_cont_sample.pem3
 
--include package/cfg/adcsinglechannel_pem3.mak
--include package/cfg/adcsinglechannel_pem3.cfg.mak
+-include package/cfg/adc_cont_sample_pem3.mak
+-include package/cfg/adc_cont_sample_pem3.cfg.mak
 ifeq (,$(MK_NOGENDEPS))
--include package/cfg/adcsinglechannel_pem3.dep
+-include package/cfg/adc_cont_sample_pem3.dep
 endif
-adcsinglechannel.pem3: package/cfg/adcsinglechannel_pem3.xdl
+adc_cont_sample.pem3: package/cfg/adc_cont_sample_pem3.xdl
 	@
 
 
 ifeq (,$(wildcard .libraries,em3))
-adcsinglechannel.pem3 package/cfg/adcsinglechannel_pem3.c: .libraries,em3
+adc_cont_sample.pem3 package/cfg/adc_cont_sample_pem3.c: .libraries,em3
 endif
 
-package/cfg/adcsinglechannel_pem3.c package/cfg/adcsinglechannel_pem3.h package/cfg/adcsinglechannel_pem3.xdl: override _PROG_NAME := adcsinglechannel.xem3
-package/cfg/adcsinglechannel_pem3.c: package/cfg/adcsinglechannel_pem3.cfg
-package/cfg/adcsinglechannel_pem3.xdc.inc: package/cfg/adcsinglechannel_pem3.xdl
-package/cfg/adcsinglechannel_pem3.xdl package/cfg/adcsinglechannel_pem3.c: .interfaces
+package/cfg/adc_cont_sample_pem3.c package/cfg/adc_cont_sample_pem3.h package/cfg/adc_cont_sample_pem3.xdl: override _PROG_NAME := adc_cont_sample.xem3
+package/cfg/adc_cont_sample_pem3.c: package/cfg/adc_cont_sample_pem3.cfg
+package/cfg/adc_cont_sample_pem3.xdc.inc: package/cfg/adc_cont_sample_pem3.xdl
+package/cfg/adc_cont_sample_pem3.xdl package/cfg/adc_cont_sample_pem3.c: .interfaces
 
 clean:: clean,em3
-	-$(RM) package/cfg/adcsinglechannel_pem3.cfg
-	-$(RM) package/cfg/adcsinglechannel_pem3.dep
-	-$(RM) package/cfg/adcsinglechannel_pem3.c
-	-$(RM) package/cfg/adcsinglechannel_pem3.xdc.inc
+	-$(RM) package/cfg/adc_cont_sample_pem3.cfg
+	-$(RM) package/cfg/adc_cont_sample_pem3.dep
+	-$(RM) package/cfg/adc_cont_sample_pem3.c
+	-$(RM) package/cfg/adc_cont_sample_pem3.xdc.inc
 
 clean,em3::
-	-$(RM) adcsinglechannel.pem3
-.executables,em3 .executables: adcsinglechannel.xem3
+	-$(RM) adc_cont_sample.pem3
+.executables,em3 .executables: adc_cont_sample.xem3
 
-adcsinglechannel.xem3: |adcsinglechannel.pem3
+adc_cont_sample.xem3: |adc_cont_sample.pem3
 
--include package/cfg/adcsinglechannel.xem3.mak
-adcsinglechannel.xem3: package/cfg/adcsinglechannel_pem3.oem3 
+-include package/cfg/adc_cont_sample.xem3.mak
+adc_cont_sample.xem3: package/cfg/adc_cont_sample_pem3.oem3 
 	$(RM) $@
 	@$(MSG) lnkem3 $@ ...
 	$(RM) $(XDCCFGDIR)/$@.map
-	$(ti.targets.arm.elf.M3.rootDir)/bin/armcl -fs $(XDCCFGDIR)$(dir $@) -q -u _c_int00 --silicon_version=7M3 -z --strict_compatibility=on  -o $@ package/cfg/adcsinglechannel_pem3.oem3   package/cfg/adcsinglechannel_pem3.xdl  -w -c -m $(XDCCFGDIR)/$@.map -l $(ti.targets.arm.elf.M3.rootDir)/lib/libc.a
+	$(ti.targets.arm.elf.M3.rootDir)/bin/armcl -fs $(XDCCFGDIR)$(dir $@) -q -u _c_int00 --silicon_version=7M3 -z --strict_compatibility=on  -o $@ package/cfg/adc_cont_sample_pem3.oem3   package/cfg/adc_cont_sample_pem3.xdl  -w -c -m $(XDCCFGDIR)/$@.map -l $(ti.targets.arm.elf.M3.rootDir)/lib/libc.a
 	
-adcsinglechannel.xem3: export C_DIR=
-adcsinglechannel.xem3: PATH:=$(ti.targets.arm.elf.M3.rootDir)/bin/:$(PATH)
+adc_cont_sample.xem3: export C_DIR=
+adc_cont_sample.xem3: PATH:=$(ti.targets.arm.elf.M3.rootDir)/bin/:$(PATH)
 
-adcsinglechannel.test test,em3 test: adcsinglechannel.xem3.test
+adc_cont_sample.test test,em3 test: adc_cont_sample.xem3.test
 
-adcsinglechannel.xem3.test:: adcsinglechannel.xem3
+adc_cont_sample.xem3.test:: adc_cont_sample.xem3
 ifeq (,$(_TESTLEVEL))
-	@$(MAKE) -R -r --no-print-directory -f $(XDCROOT)/packages/xdc/bld/xdc.mak _TESTLEVEL=1 adcsinglechannel.xem3.test
+	@$(MAKE) -R -r --no-print-directory -f $(XDCROOT)/packages/xdc/bld/xdc.mak _TESTLEVEL=1 adc_cont_sample.xem3.test
 else
 	@$(MSG) running $<  ...
-	$(call EXEC.adcsinglechannel.xem3, ) 
+	$(call EXEC.adc_cont_sample.xem3, ) 
 endif
 
 clean,em3::
-	-$(RM) $(wildcard .tmp,adcsinglechannel.xem3,*)
+	-$(RM) $(wildcard .tmp,adc_cont_sample.xem3,*)
 
 
 clean:: clean,em3
 
 clean,em3::
-	-$(RM) adcsinglechannel.xem3
+	-$(RM) adc_cont_sample.xem3
 %,copy:
 	@$(if $<,,$(MSG) don\'t know how to build $*; exit 1)
 	@$(MSG) cp $< $@
 	$(RM) $@
 	$(CP) $< $@
-adcsinglechannel_pem3.oem3,copy : package/cfg/adcsinglechannel_pem3.oem3
-adcsinglechannel_pem3.sem3,copy : package/cfg/adcsinglechannel_pem3.sem3
+adc_cont_sample_pem3.oem3,copy : package/cfg/adc_cont_sample_pem3.oem3
+adc_cont_sample_pem3.sem3,copy : package/cfg/adc_cont_sample_pem3.sem3
 
 $(XDCCFGDIR)%.c $(XDCCFGDIR)%.h $(XDCCFGDIR)%.xdl: $(XDCCFGDIR)%.cfg $(XDCROOT)/packages/xdc/cfg/Main.xs | .interfaces
 	@$(MSG) "configuring $(_PROG_NAME) from $< ..."

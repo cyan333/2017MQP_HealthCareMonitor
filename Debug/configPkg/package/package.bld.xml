@@ -4,18 +4,18 @@
     <units>
     </units>
     <sources>
-        <srcFile name="package/cfg/adcsinglechannel_pem3.c"/>
+        <srcFile name="package/cfg/adc_cont_sample_pem3.c"/>
     </sources>
     <configscripts>
-        <srcFile name="/Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/adcsinglechannel.cfg"/>
+        <srcFile name="/Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/adc_cont_sample.cfg"/>
     </configscripts>
     <makefiles>
         <srcFile name="package.mak" src="package.bld"/>
         <srcFile name="package/package.xdc.dep" src="package.xdc"/>
-        <srcFile name="package/cfg/adcsinglechannel_pem3.mak" src="package.bld"/>
-        <srcFile name="package/cfg/adcsinglechannel_pem3.oem3.dep" src="package/cfg/adcsinglechannel_pem3.c"/>
-        <srcFile name="package/cfg/adcsinglechannel_pem3.dep" src="package/cfg/adcsinglechannel_pem3.cfg"/>
-        <srcFile name="package/cfg/adcsinglechannel.xem3.mak" src="package.bld"/>
+        <srcFile name="package/cfg/adc_cont_sample_pem3.mak" src="package.bld"/>
+        <srcFile name="package/cfg/adc_cont_sample_pem3.oem3.dep" src="package/cfg/adc_cont_sample_pem3.c"/>
+        <srcFile name="package/cfg/adc_cont_sample_pem3.dep" src="package/cfg/adc_cont_sample_pem3.cfg"/>
+        <srcFile name="package/cfg/adc_cont_sample.xem3.mak" src="package.bld"/>
         <srcFile name="package/rel/configPkg.tar.dep" src="package/rel/configPkg.xdc.inc"/>
     </makefiles>
     <targets>
@@ -36,34 +36,34 @@
     <libraries>
     </libraries>
     <configurations>
-    <configuration name="adcsinglechannel"
-        pname="adcsinglechannel.pem3"
+    <configuration name="adc_cont_sample"
+        pname="adc_cont_sample.pem3"
         target="ti.targets.arm.elf.M3"
         platform="ti.platforms.simplelink:CC2650F128"
         profile="release"
         isPartial="false"
-        xCfgScript="package/cfg/adcsinglechannel_pem3.cfg"
-        xCfgPrefix="package/cfg/adcsinglechannel_pem3"
-        cfgScript="/Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/adcsinglechannel.cfg"
+        xCfgScript="package/cfg/adc_cont_sample_pem3.cfg"
+        xCfgPrefix="package/cfg/adc_cont_sample_pem3"
+        cfgScript="/Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/adc_cont_sample.cfg"
         cfgArgs="null"
         />
     </configurations>
     <executables>
-    <executable name="adcsinglechannel"
-        pname="adcsinglechannel.xem3"
+    <executable name="adc_cont_sample"
+        pname="adc_cont_sample.xem3"
         target="ti.targets.arm.elf.M3"
         platform="ti.platforms.simplelink:CC2650F128"
         profile="release"
-        xCfgScript="package/cfg/adcsinglechannel_pem3.cfg"
-        xCfgPrefix="package/cfg/adcsinglechannel_pem3"
-        cfgScript="/Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/adcsinglechannel.cfg"
+        xCfgScript="package/cfg/adc_cont_sample_pem3.cfg"
+        xCfgPrefix="package/cfg/adc_cont_sample_pem3"
+        cfgScript="/Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/adc_cont_sample.cfg"
         cfgArgs="null"
         />
     </executables>
     <tests>
-    <test exeName="adcsinglechannel.xem3"
+    <test exeName="adc_cont_sample.xem3"
         args=""
-        groupName="adcsinglechannel.xem3"
+        groupName="adc_cont_sample.xem3"
         refOutput="undefined"
         refExitCode="0"
         execArgs=""

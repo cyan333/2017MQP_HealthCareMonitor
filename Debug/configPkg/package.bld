@@ -11,7 +11,7 @@ var makeAssembly = false;
 var Executable = xdc.module('xdc.bld.Executable');
 
 var exeOpts = new Executable.Attrs({
-        cfgScript: '/Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/adcsinglechannel.cfg',
+        cfgScript: '/Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/adc_cont_sample.cfg',
         profile: 'release',
         cfgHome: 'configPkg',
 });
@@ -20,7 +20,7 @@ exeOpts.cfgArgs = 'null';
 exeOpts.cfgArgsEncoded = true;
 
 var exe = Pkg[makeAssembly ? 'addAssembly': 'addExecutable'](
-    'adcsinglechannel',
+    'adc_cont_sample',
     targ,
     platform,
     exeOpts
@@ -40,10 +40,10 @@ else {
 }
 
 var thisObj = {
-    cfg:        '../adcsinglechannel.cfg',
-    outputPath: '/Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/Debug/configPkg',
-    exeName:    'adcsinglechannel' + suffix,
-    exeIntName: 'adcsinglechannel' + suffix.replace('.', '_'),
+    cfg:        '../adc_cont_sample.cfg',
+    outputPath: '/Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/Debug/configPkg',
+    exeName:    'adc_cont_sample' + suffix,
+    exeIntName: 'adc_cont_sample' + suffix.replace('.', '_'),
     targ:       targ,
     linkerCommandFile: 'linker.cmd',
     compilerOptFile: 'compiler.opt',

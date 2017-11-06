@@ -9,7 +9,7 @@
  */
 
 
--l"/Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/Debug/configPkg/package/cfg/adcsinglechannel_pem3.oem3"
+-l"/Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/Debug/configPkg/package/cfg/adc_cont_sample_pem3.oem3"
 -l"/Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/mw/display/lib/display.aem3"
 -l"/Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/mw/lcd/lib/lcd.aem3"
 -l"/Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/mw/grlib/lib/grlib.aem3"
@@ -19,7 +19,7 @@
 -l"/Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/drivers/pdm/lib/pdm_cc26xxware.aem3"
 -l"/Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/mw/fatfs/lib/release/ti.mw.fatfs.aem3"
 -l"/Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/tidrivers_cc13xx_cc26xx_2_21_00_04/packages/ti/drivers/ports/lib/tirtosport.aem3"
--l"/Users/Fangming/Documents/MQP/uC/2017MQP_HealthCareMonitor/src/sysbios/rom_sysbios.aem3"
+-l"/Users/Fangming/Documents/MQP/uC/mqp_ecg_adc/src/sysbios/rom_sysbios.aem3"
 -l"/Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/bios_6_46_01_37/packages/ti/targets/arm/rtsarm/lib/boot.aem3"
 -l"/Users/Fangming/ti/tirtos_cc13xx_cc26xx_2_21_00_06/products/bios_6_46_01_37/packages/ti/targets/arm/rtsarm/lib/auto_init.aem3"
 
